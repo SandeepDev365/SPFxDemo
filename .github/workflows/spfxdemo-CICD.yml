@@ -1,0 +1,42 @@
+name: SPFxDemo-CICD
+
+on:
+  push:
+    branches: [ main ]
+    
+env:
+  SPPKG_FILE_NAME: 'package-name.sppkg'
+  SEND_MAIL: 'true'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 14.18.1
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.18.1
+        
+    # npm install
+    - name: Run npm ci
+      run: npm ci
+    
+    # install gulp if mac
+    - name: Run npm i -g gulp
+      run: npm i -g gulp
+      if: runner.os == 'macOS'
+    
+    # gulp bundle and package solution
+    - name: Bundle and Package
+      run: |
+        gulp bundle --ship
+        gulp package-solution --ship
+    
+    # Install PnP Module
+    - name: Install PnP Module
+      run: Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
+        
