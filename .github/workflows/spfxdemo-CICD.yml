@@ -44,7 +44,7 @@ jobs:
     - name: PowerShell script
       uses: Amadevus/pwsh-script@v2.0.1
       env:
-        DEVSITEURL: ${{ secrets.SuperSecret }}
+        DEVSITEURL: ${{ secrets.DEVSITEURL }}
       with:
         # PowerShell script to execute in Actions-hydrated context
         script: |
