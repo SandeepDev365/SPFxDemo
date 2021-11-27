@@ -49,8 +49,7 @@ jobs:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
-          Add-PnPApp -Scope Site -Publish -Overwrite -Path '${{ steps.get-pkgname.outputs.pkgname }}'
           $web = Get-PnPWeb
+          Write-Host "Site title: ${{ secrets.DEVSITEURL }}"
           Write-Host "Site title: $($web.Title)"
         
