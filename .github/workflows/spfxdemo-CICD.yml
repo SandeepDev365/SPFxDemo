@@ -50,6 +50,6 @@ jobs:
         APPID: ${{ secrets.APPID }}
         BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
         CERTPWD: ${{ secrets.CERTPWD }}
-      run: pwsh -command ".\$GITHUB_WORKSPACE\.github\workflows\DeploySPFxWP.ps1"
+      run: pwsh -command ".\$GITHUB_WORKSPACE\DeploySPFxWP.ps1"
           
         
