@@ -7,13 +7,7 @@ on:
 env:
   APP_FILE_PATH: '**/*.sppkg'
   SEND_MAIL: 'false'
-  DEVSITEURL: ${{ secrets.DEVSITEURL }}
-  TENANT: ${{ secrets.TENANT }}
-  APPID: ${{ secrets.APPID }}
-  BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
-  CERTPWD: ${{ secrets.CERTPWD }}
   
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -47,12 +41,14 @@ jobs:
     - name: Use the output
       run: |
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
-    - name: PowerShell script
-      uses: Amadevus/pwsh-script@v2.0.1
-      with:
-        # PowerShell script to execute in Actions-hydrated context
-        script: |
-          Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Connect-PnPOnline -Url ${{ env.DEVSITEURL }} -ClientId ${{ env.APPID }} -CertificateBase64Encoded ${{ env.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ env.CERTPWD }} -Force) -Tenant ${{ env.TENANT }}
+    - name: RunPowershellScriptFromRepo
+      env: #Set secrets as environment variables
+        DEVSITEURL: ${{ secrets.DEVSITEURL }}
+        TENANT: ${{ secrets.TENANT }}
+        APPID: ${{ secrets.APPID }}
+        BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
+        CERTPWD: ${{ secrets.CERTPWD }}
+      run: .\DeploySPFxWP.ps1
+      shell: pwsh
           
         
