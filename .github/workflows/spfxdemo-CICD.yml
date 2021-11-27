@@ -41,6 +41,8 @@ jobs:
     - name: Use the output
       run: |
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
+        echo .
+        echo 'above is working directory'
     - name: RunPowershellScriptFromRepo
       env: #Set secrets as environment variables
         DEVSITEURL: ${{ secrets.DEVSITEURL }}
