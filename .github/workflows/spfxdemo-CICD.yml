@@ -13,33 +13,34 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout Code
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js 14.18.1
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v1
+      
+    # Setup node.js runtime
+    - name: Use Node.js 10.x
       uses: actions/setup-node@v1
       with:
-        node-version: 14.18.1
-        
+        node-version: 10.x
     # npm install
-    - name: Run npm ci
-      run: npm ci
-    
-    # install gulp if mac
-    - name: Run npm i -g gulp
-      run: npm i -g gulp
-      if: runner.os == 'macOS'
+    - name: Run npm install
+      run: |
+        pwd
+        [ -f "package-lock.json" ] && rm package-lock.json
+        npm install
     
     # gulp bundle and package solution
-    - name: Bundle and Package
+    - name: Bundle 
       run: |
-        gulp bundle --ship
-        gulp package-solution --ship
+        gulp bundle --ship --warnoff
+    - name: Package ${{ env.SAMPLE_TO_BUILD_DEPLOY }}
+      run: |
+        gulp package-solution --ship 
     - name: Set pkgname
       id: get-pkgname
       run: |
         echo ::set-output name=pkgname::$(find . -name *.sppkg)
     - name: Use the output
       run: |
-        echo 'The output pkgname is  ${{ steps.get-pkgname.outputs.pkgname }}'    
+        echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
         
