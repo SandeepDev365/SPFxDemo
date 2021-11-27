@@ -50,7 +50,7 @@ jobs:
         CERTPWD: ${{ secrets.CERTPWD }}
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
       run: |
-        pwsh -command ".\DeploySPFxWP.ps1"
+        pwsh -command ".\PowerShell\DeploySPFxWP.ps1"
         echo 'Completed'
           
         
