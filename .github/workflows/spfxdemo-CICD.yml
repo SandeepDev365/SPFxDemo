@@ -26,6 +26,8 @@ jobs:
         Write-Host ${{ secrets.DEVSITEURL }}
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
         Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
+        $web = Get-PnPWeb
+        Write-Host "Site Title - " $web.Title
       shell: pwsh
           
         
