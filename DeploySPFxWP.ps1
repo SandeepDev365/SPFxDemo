@@ -16,6 +16,6 @@ Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
 
 Write-Output "Connect PnP Online..."
 Connect-PnPOnline -Url $devSiteUrl -ClientId $clientId -CertificateBase64Encoded $baseEncodedString -CertificatePassword (ConvertTo-SecureString -AsPlainText $cerPwd -Force) -Tenant $tenant
-Write-Output "Connect PnP Successful"
+Write-Output "Connect PnP Successful.."
 
 Add-PnPApp -Scope Site -Publish -Overwrite -Path $packagePath
