@@ -7,7 +7,12 @@ on:
 env:
   APP_FILE_PATH: '**/*.sppkg'
   SEND_MAIL: 'false'
-  DevSiteUrl: ${{ secrets.DEVSITEURL }}
+  DEVSITEURL: ${{ secrets.DEVSITEURL }}
+  TENANT: ${{ secrets.TENANT }}
+  APPID: ${{ secrets.APPID }}
+  BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
+  CERTPWD: ${{ secrets.CERTPWD }}
+  
 
 jobs:
   build-and-deploy:
@@ -48,7 +53,6 @@ jobs:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Write-Host "test1 $env:DevSiteUrl"
-          Write-Host "test2 %DevSiteUrl%"
+          Connect-PnPOnline -Url $DEVSITEURL -ClientId $APPID -CertificateBase64Encoded $BASEENCODEDSTRING -CertificatePassword (ConvertTo-SecureString -AsPlainText $CERTPWD -Force) -Tenant $TENANT
           
         
