@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    
+env:
+  APP_FILE_PATH: '**/*.sppkg'
+  SEND_MAIL: 'false'
+  
+jobs:
+  build-and-deploy:
+    environment: Dev
+    env:
+      testvar: ${{ secrets.TESTSECRET }}
+    runs-on: ubuntu-latest
+  
+    steps:
+      # Checkout code
+      - name: Testing
+        run: |
+          Write-OutPut "Test env secret - " ${{ env.testvar }}
+        shell: pwsh
