@@ -35,7 +35,6 @@ jobs:
       run: |
         gulp bundle --ship
         gulp package-solution --ship
-    
     - name: Set pkgname
       id: get-pkgname
       run: |
