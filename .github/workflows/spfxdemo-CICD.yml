@@ -13,15 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: PowerShell script
-      # You may pin to the exact commit or the version.
-      # uses: Amadevus/pwsh-script@1f1751bbf3d1a92127bfc6c32403283625880cbf
-      uses: Amadevus/pwsh-script@v2.0.1
-      with:
-        # PowerShell script to execute in Actions-hydrated context
-        script: |
-          Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
-          Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
     - name: RunPowershellScriptFromRepo
       env: #Set secrets as environment variables
         DEVSITEURL: ${{ secrets.DEVSITEURL }}
@@ -30,8 +21,11 @@ jobs:
         BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
         CERTPWD: ${{ secrets.CERTPWD }}
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
+        testSecret: ${{ secrets.TESTSECRET }}
       run: |
         Write-Host "Installing PnP Module"
+        Write-Host ${{ secrets.DEVSITEURL }}
+        Write-Host ${{ Env:testSecret }}
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
         Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
       shell: pwsh
