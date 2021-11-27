@@ -42,13 +42,14 @@ jobs:
       run: |
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
     - name: PowerShell script
-      # You may pin to the exact commit or the version.
-      # uses: Amadevus/pwsh-script@1f1751bbf3d1a92127bfc6c32403283625880cbf
       uses: Amadevus/pwsh-script@v2.0.1
+      env:
+        DEVSITEURL: ${{ secrets.SuperSecret }}
       with:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Write-Host 'Site title: ${{ secrets.DEVSITEURL }}'
+          Write-Host "test1 $env:SUPER_SECRET"
+          Write-Host "test2 %SUPER_SECRET%"
           
         
