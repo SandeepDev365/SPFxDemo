@@ -23,7 +23,7 @@ jobs:
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
       run: |
         Write-Host "Installing PnP Module"
-        Write-Host ${{ secrets.TESTSECRET }}
+        Write-Host ${{ secrets.DEVSITEURL }}
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
         Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
       shell: pwsh
