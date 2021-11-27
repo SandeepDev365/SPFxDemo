@@ -33,7 +33,7 @@ jobs:
     - name: Bundle 
       run: |
         gulp bundle --ship --warnoff
-    - name: Package ${{ env.SAMPLE_TO_BUILD_DEPLOY }}
+    - name: Package Solution
       run: |
         gulp package-solution --ship 
     - name: Set pkgname
