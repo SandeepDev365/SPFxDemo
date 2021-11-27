@@ -48,6 +48,8 @@ jobs:
         APPID: ${{ secrets.APPID }}
         BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
         CERTPWD: ${{ secrets.CERTPWD }}
-      run: pwsh -command ".\DeploySPFxWP.ps1"
+      run: |
+        pwsh -command ".\DeploySPFxWP.ps1"
+        echo 'Completed'
           
         
