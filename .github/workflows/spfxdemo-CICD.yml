@@ -7,6 +7,7 @@ on:
 env:
   APP_FILE_PATH: '**/*.sppkg'
   SEND_MAIL: 'false'
+  DevSiteUrl: ${{ secrets.DEVSITEURL }}
 
 jobs:
   build-and-deploy:
@@ -43,13 +44,11 @@ jobs:
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
     - name: PowerShell script
       uses: Amadevus/pwsh-script@v2.0.1
-      env:
-        DEVSITEURL: ${{ secrets.DEVSITEURL }}
       with:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Write-Host "test1 $env:DEVSITEURL"
-          Write-Host "test2 %DEVSITEURL%"
+          Write-Host "test1 $env:DevSiteUrl"
+          Write-Host "test2 %DevSiteUrl%"
           
         
