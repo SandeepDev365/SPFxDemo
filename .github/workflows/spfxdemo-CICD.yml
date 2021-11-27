@@ -24,7 +24,7 @@ jobs:
       run: |
         Write-Host "Installing PnP Module"
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
-        Connect-PnPOnline -Url ${env:DEVSITEURL} -ClientId ${env:APPID} -CertificateBase64Encoded ${env:BASEENCODEDSTRING} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${env:CERTPWD} -Force) -Tenant ${env:TENANT}
+        Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
       shell: pwsh
           
         
