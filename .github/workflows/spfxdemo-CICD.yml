@@ -47,14 +47,12 @@ jobs:
     - name: Use the output
       run: |
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
-        echo $CERTPWD
-        echo ${{ secrets.CERTPWD }}
     - name: PowerShell script
       uses: Amadevus/pwsh-script@v2.0.1
       with:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Connect-PnPOnline -Url $DEVSITEURL -ClientId $APPID -CertificateBase64Encoded $BASEENCODEDSTRING -CertificatePassword (ConvertTo-SecureString -AsPlainText $CERTPWD -Force) -Tenant $TENANT
+          Connect-PnPOnline -Url ${{ env.DEVSITEURL }} -ClientId ${{ env.APPID }} -CertificateBase64Encoded ${{ env.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ env.CERTPWD }} -Force) -Tenant ${{ env.TENANT }}
           
         
