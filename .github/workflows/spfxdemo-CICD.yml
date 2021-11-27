@@ -4,13 +4,18 @@ on:
   push:
     branches: [ main ]
     
-env:
-  APP_FILE_PATH: '**/*.sppkg'
-  SEND_MAIL: 'false'
-  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    
+    environment: Dev
+    env:
+      DEVSITEURL: ${{ secrets.DEV_DEVSITEURL }}
+      TENANT: ${{ secrets.DEV_TENANT }}
+      APPID: ${{ secrets.DEV_APPID }}
+      BASEENCODEDSTRING: ${{ secrets.DEV_BASEENCODEDSTRING }}
+      CERTPWD: ${{ secrets.DEV_CERTPWD }}
+      packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
     
     steps:
     # Checkout code
@@ -51,18 +56,11 @@ jobs:
         
     # Deploy Package
     - name: Connect To SharePoint And Deploy Package
-      env: #Set secrets as environment variables
-        DEVSITEURL: ${{ secrets.DEVSITEURL }}
-        TENANT: ${{ secrets.TENANT }}
-        APPID: ${{ secrets.APPID }}
-        BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
-        CERTPWD: ${{ secrets.CERTPWD }}
-        packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
       run: |
         Write-Host "Installing PnP Module"
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
         Write-Host "Connecting to SharePoint Site"
-        Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
+        Connect-PnPOnline -Url ${{ env.DEVSITEURL }} -ClientId ${{ env.APPID }} -CertificateBase64Encoded ${{ env.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ env.CERTPWD }} -Force) -Tenant ${{ env.TENANT }}
         Write-Host "Deploying App Package"
         Add-PnPApp -Scope Site -Publish -Overwrite -Path ${{ steps.get-pkgname.outputs.pkgname }}
         Write-Host "Step Done"
