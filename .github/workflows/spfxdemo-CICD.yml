@@ -22,6 +22,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.18.1
+        
     # npm install
     - name: Run npm install
       run: |
@@ -31,17 +32,25 @@ jobs:
     - name: Bundle 
       run: |
         gulp bundle --ship --warnoff
+        
+    # Package Solution
     - name: Package Solution
       run: |
         gulp package-solution --ship 
+    
+    # Get Package Name and Set it to variable
     - name: Set pkgname
       id: get-pkgname
       run: |
         echo ::set-output name=pkgname::$(find . -name *.sppkg)
+        
+    # Output the Package Name
     - name: Use the output
       run: |
-        echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
-    - name: RunPowershellScriptFromRepo
+        echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}' 
+        
+    # Deploy Package
+    - name: Connect To SharePoint And Deploy Package
       env: #Set secrets as environment variables
         DEVSITEURL: ${{ secrets.DEVSITEURL }}
         TENANT: ${{ secrets.TENANT }}
@@ -50,7 +59,18 @@ jobs:
         CERTPWD: ${{ secrets.CERTPWD }}
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
       run: |
-        pwsh -command ".\PowerShell\DeploySPFxWP.ps1"
-        echo 'Completed'
+        Write-Host "Installing PnP Module"
+        Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
+        Write-Host "Connecting to SharePoint Site"
+        Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
+        Write-Host "Deploying App Package"
+        Add-PnPApp -Scope Site -Publish -Overwrite -Path ${{ steps.get-pkgname.outputs.pkgname }}
+        Write-Host "Step Done"
+      shell: pwsh
+      
+    # Job Completed
+    - name: Job Completed
+      run: | 
+        echo 'Workflow Completed !!!'
           
         
