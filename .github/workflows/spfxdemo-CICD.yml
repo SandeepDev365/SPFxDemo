@@ -50,7 +50,8 @@ jobs:
         CERTPWD: ${{ secrets.CERTPWD }}
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
       run: |
-        pwsh -command ".\PowerShell\DeploySPFxWP.ps1"
-        echo 'Completed'
+        Write-Host "Installing PnP Module"
+        Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
+      shell: pwsh
           
         
