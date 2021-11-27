@@ -21,11 +21,9 @@ jobs:
         BASEENCODEDSTRING: ${{ secrets.BASEENCODEDSTRING }}
         CERTPWD: ${{ secrets.CERTPWD }}
         packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
-        testSecret: ${{ secrets.TESTSECRET }}
       run: |
         Write-Host "Installing PnP Module"
-        Write-Host ${{ secrets.DEVSITEURL }}
-        Write-Host ${{ Env:testSecret }}
+        Write-Host ${{ secrets.TESTSECRET }}
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
         Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
       shell: pwsh
