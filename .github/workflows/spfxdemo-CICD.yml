@@ -15,7 +15,6 @@ jobs:
       APPID: ${{ secrets.DEV_APPID }}
       BASEENCODEDSTRING: ${{ secrets.DEV_BASEENCODEDSTRING }}
       CERTPWD: ${{ secrets.DEV_CERTPWD }}
-      packagePath: ${{ steps.get-pkgname.outputs.pkgname }}
     
     steps:
     # Checkout code
