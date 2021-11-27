@@ -47,6 +47,8 @@ jobs:
     - name: Use the output
       run: |
         echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
+        echo $CERTPWD
+        echo ${{ secrets.CERTPWD }}
     - name: PowerShell script
       uses: Amadevus/pwsh-script@v2.0.1
       with:
