@@ -49,6 +49,6 @@ jobs:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Write-Host "Site title: ${{ secrets.DEVSITEURL }}"
+          Write-Host 'Site title: ${{ secrets.DEVSITEURL }}'
           
         
