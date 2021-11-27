@@ -12,18 +12,14 @@ env:
   
 jobs:
   build-and-deploy:
+    environment: Dev
+    env:
+      testvar: ${{ secrets.TESTSECRET }}
     runs-on: ubuntu-latest
   
     steps:
       # Checkout code
       - name: Testing
-        env: #Set secrets as environment variables
-          DEVSITEURL: ${{ secrets.DEVSITEURL }}
         run: |
-          Write-Host "Installing PnP Module" 
-          Write-OutPut "Test env secret - " ${{ Dev.secrets.TESTSECRET }}
-          Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
-          Write-Host "Connecting to SharePoint Site"
-          Connect-PnPOnline -Url ${{ secrets.DEVSITEURL }} -ClientId ${{ secrets.APPID }} -CertificateBase64Encoded ${{ secrets.BASEENCODEDSTRING }} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${{ secrets.CERTPWD }} -Force) -Tenant ${{ secrets.TENANT }}
-          Write-Host "Step Done"
+          Write-OutPut "Test env secret - " ${{ env.testvar }}
         shell: pwsh
