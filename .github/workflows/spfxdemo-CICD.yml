@@ -13,34 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    # Checkout code
-    - name: Checkout code
-      uses: actions/checkout@v1
-      
-    # Setup node.js runtime
-    - name: Use Node.js 14.18.1
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.18.1
-    # npm install
-    - name: Run npm install
-      run: |
-        npm install
-    
-    # gulp bundle and package solution
-    - name: Bundle 
-      run: |
-        gulp bundle --ship --warnoff
-    - name: Package Solution
-      run: |
-        gulp package-solution --ship 
-    - name: Set pkgname
-      id: get-pkgname
-      run: |
-        echo ::set-output name=pkgname::$(find . -name *.sppkg)
-    - name: Use the output
-      run: |
-        echo 'The output pkgname is ${{ steps.get-pkgname.outputs.pkgname }}'  
     - name: RunPowershellScriptFromRepo
       env: #Set secrets as environment variables
         DEVSITEURL: ${{ secrets.DEVSITEURL }}
@@ -52,6 +24,7 @@ jobs:
       run: |
         Write-Host "Installing PnP Module"
         Install-Module -Name PnP.PowerShell -Force -Scope "CurrentUser"
+        Connect-PnPOnline -Url ${env:DEVSITEURL} -ClientId ${env:APPID} -CertificateBase64Encoded ${env:BASEENCODEDSTRING} -CertificatePassword (ConvertTo-SecureString -AsPlainText ${env:CERTPWD} -Force) -Tenant ${env:TENANT}
       shell: pwsh
           
         
