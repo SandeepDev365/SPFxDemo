@@ -49,7 +49,7 @@ jobs:
         # PowerShell script to execute in Actions-hydrated context
         script: |
           Install-Module PnP.PowerShell -AllowPrerelease -Scope "CurrentUser" -Verbose -AllowClobber -Force
-          Write-Host "test1 $env:SUPER_SECRET"
-          Write-Host "test2 %SUPER_SECRET%"
+          Write-Host "test1 $env:DEVSITEURL"
+          Write-Host "test2 %DEVSITEURL%"
           
         
