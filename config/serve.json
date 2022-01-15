@@ -2,5 +2,5 @@
   "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
   "port": 4321,
   "https": true,
-  "initialPage": "https://sandyunnikrish.sharepoint.com/sites/MyCommunicationSite/_layouts/workbench.aspx"
+  "initialPage": "https://sandyunnikrish.sharepoint.com/sites/teamsite1/?loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js "
 }
