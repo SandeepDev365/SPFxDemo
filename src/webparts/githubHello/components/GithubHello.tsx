@@ -10,10 +10,10 @@ import { result } from 'lodash';
 
 export default class GithubHello extends React.Component<IGithubHelloProps, {}> {
 
-  //private apiUrl = "https://www.ecb.europa.eu/rss/fxref-usd.html";
+  private apiUrl = "https://www.ecb.europa.eu/rss/fxref-usd.html";
 
   //The first url enables Cross origin requests temporarily
-  private apiUrl = "https://cors-anywhere.herokuapp.com/https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
+  //private apiUrl = "https://cors-anywhere.herokuapp.com/https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
   private async getCurrencyRates() {
     const response = await axios.get(this.apiUrl);
