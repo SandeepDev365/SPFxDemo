@@ -11,7 +11,7 @@ export default class CurrencyBusinessLayer {
     }
 
     public async getCurrencyRateXML() {
-        let currencyRateUrl: string = CurrencyRateEndPoints.ReroutedEndPointwithCORS;
+        let currencyRateUrl: string = CurrencyRateEndPoints.europeBankEndPointwithoutCORS;
         return await this.currencyDataLayer.getCurrencyRates(currencyRateUrl).then((response: any) => {
             return (response);
         }).catch(error => {
